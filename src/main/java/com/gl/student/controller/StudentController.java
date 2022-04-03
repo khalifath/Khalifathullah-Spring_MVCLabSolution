@@ -16,7 +16,7 @@ import com.gl.student.service.StudentService;
 @Controller
 @RequestMapping("/students")
 public class StudentController {
-
+	
 	@Autowired
 	private StudentService studentService;
 
