@@ -11,20 +11,16 @@ import org.springframework.stereotype.Repository;
 
 import com.gl.student.entity.Student;
 
-
-
 @Repository
 public class StudentServiceImpl implements StudentService {
-
 
 	private SessionFactory sessionFactory;
 	// create session
 	private Session session;
 
 	@Autowired
-	StudentServiceImpl(SessionFactory sessionFactory)
-	{
-		this.sessionFactory=sessionFactory;
+	StudentServiceImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 		try {
 			session = sessionFactory.getCurrentSession();
 		} catch (HibernateException e) {
@@ -35,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
 	@Transactional
 	public List<Student> findAll() {
 		Transaction tx = session.beginTransaction();
-		List<Student> books=session.createQuery("from Student").list();
+		List<Student> books = session.createQuery("from Student").list();
 		tx.commit();
 		return books;
 	}
@@ -68,17 +64,17 @@ public class StudentServiceImpl implements StudentService {
 	@Transactional
 	public List<Student> searchBy(String Name, String Department) {
 		Transaction tx = session.beginTransaction();
-		String query="";
-		if(Name.length()!=0 && Department.length()!=0)
-			query ="from Student where name like '%"+Name+"%' or department like '%"+Department+"%'";
-		else if(Name.length()!=0)
-			query ="from Student where name like '%"+Name+"%'";
-		else if(Department.length()!=0)
-			query ="from Student where department like '%"+Department+"%'";
+		String query = "";
+		if (Name.length() != 0 && Department.length() != 0)
+			query = "from Student where name like '%" + Name + "%' or department like '%" + Department + "%'";
+		else if (Name.length() != 0)
+			query = "from Student where name like '%" + Name + "%'";
+		else if (Department.length() != 0)
+			query = "from Student where department like '%" + Department + "%'";
 		else
 			System.out.println("Cannot search without input data");
 
-		List<Student> student=session.createQuery(query).list();
+		List<Student> student = session.createQuery(query).list();
 		tx.commit();
 		return student;
 	}
@@ -86,8 +82,7 @@ public class StudentServiceImpl implements StudentService {
 	@Transactional
 	public void print(List<Student> student) {
 
-		for(Student b:student) 
-		{
+		for (Student b : student) {
 			System.out.println(b);
 		}
 	}

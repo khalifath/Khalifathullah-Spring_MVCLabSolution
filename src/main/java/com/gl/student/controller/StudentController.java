@@ -1,6 +1,5 @@
 package com.gl.student.controller;
 
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gl.student.entity.Student;
 import com.gl.student.service.StudentService;
 
-
-
 @Controller
 @RequestMapping("/students")
 public class StudentController {
-	
+
 	@Autowired
 	private StudentService studentService;
 
@@ -41,30 +38,26 @@ public class StudentController {
 	}
 
 	@RequestMapping("/updateStudent")
-	public String updateStudent(@RequestParam("studentId") int theId,
-			Model theModel) {
+	public String updateStudent(@RequestParam("studentId") int theId, Model theModel) {
 
 		Student student = studentService.findById(theId);
 		theModel.addAttribute("Student", student);
-		return "Student-form";			
+		return "Student-form";
 	}
 
-
 	@PostMapping("/save")
-	public String saveStudent(@RequestParam("id") int id,
-			@RequestParam("name") String name,@RequestParam("department") String department,@RequestParam("country") String country) {
+	public String saveStudent(@RequestParam("id") int id, @RequestParam("name") String name,
+			@RequestParam("department") String department, @RequestParam("country") String country) {
 
 		System.out.println(id);
 		Student student;
-		if(id!=0)
-		{
-			student=studentService.findById(id);
+		if (id != 0) {
+			student = studentService.findById(id);
 			student.setName(name);
 			student.setDepartment(department);
 			student.setCountry(country);
-		}
-		else
-			student=new Student(name, department, country);
+		} else
+			student = new Student(name, department, country);
 
 		// save the Student
 		studentService.save(student);
@@ -72,7 +65,6 @@ public class StudentController {
 		return "redirect:/students/list";
 
 	}
-
 
 	@RequestMapping("/delete")
 	public String delete(@RequestParam("studentId") int Id) {
@@ -85,18 +77,14 @@ public class StudentController {
 
 	}
 
-
 	@RequestMapping("/search")
-	public String search(@RequestParam("name") String name,
-			@RequestParam("department") String department,
+	public String search(@RequestParam("name") String name, @RequestParam("department") String department,
 			Model theModel) {
 
 		if (name.trim().isEmpty() && department.trim().isEmpty()) {
 			return "redirect:/students/list";
-		}
-		else {
-			List<Student> student=
-					studentService.searchBy(name, department);
+		} else {
+			List<Student> student = studentService.searchBy(name, department);
 
 			theModel.addAttribute("Students", student);
 			return "list-Students";
